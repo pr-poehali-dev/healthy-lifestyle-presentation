@@ -1,195 +1,79 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import Icon from "@/components/ui/icon";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import Icon from '@/components/ui/icon';
+import { Card, CardContent } from '@/components/ui/card';
 
 const slides = [
   {
+    id: 0,
+    title: 'Здоровьесберегающие технологии',
+    subtitle: 'В школе и дома',
+    type: 'title',
+    content: null,
+  },
+  {
     id: 1,
-    title: "Здоровьесбережение в школе и дома",
-    subtitle: "Режим дня • Питание • Физическая активность • Профилактика",
-    type: "cover",
+    title: 'Режим дня',
+    type: 'content',
+    image: 'https://cdn.poehali.dev/projects/18fd8331-4361-489f-b325-f9ed107fdb3d/files/8b7039be-d177-4855-a582-7c50a10b9aea.jpg',
+    points: [
+      { icon: 'Sun', text: 'Подъём в одно и то же время (7:00-7:30)', color: 'text-amber-500' },
+      { icon: 'BookOpen', text: 'Время для учёбы и домашних заданий', color: 'text-blue-500' },
+      { icon: 'Utensils', text: 'Регулярное питание 4-5 раз в день', color: 'text-green-500' },
+      { icon: 'Moon', text: 'Сон не менее 8-9 часов (22:00-7:00)', color: 'text-indigo-500' },
+    ],
   },
   {
     id: 2,
-    title: "Режим дня",
-    subtitle: "Основа здорового образа жизни",
-    type: "section",
-    icon: "Clock",
-    color: "from-blue-500 to-cyan-500",
-    image: "https://cdn.poehali.dev/projects/18fd8331-4361-489f-b325-f9ed107fdb3d/files/7cca27e1-5901-4042-9c3f-d03852752537.jpg",
-    content: [
-      { time: "7:00 - 8:00", activity: "Подъём, утренняя гигиена, зарядка" },
-      { time: "8:00 - 9:00", activity: "Завтрак" },
-      { time: "9:00 - 14:00", activity: "Учебные занятия" },
-      { time: "14:00 - 15:00", activity: "Обед, отдых" },
-      { time: "15:00 - 17:00", activity: "Домашние задания" },
-      { time: "17:00 - 19:00", activity: "Физическая активность, прогулка" },
-      { time: "19:00 - 20:00", activity: "Ужин" },
-      { time: "20:00 - 21:30", activity: "Свободное время, хобби" },
-      { time: "21:30 - 22:00", activity: "Подготовка ко сну" },
+    title: 'Правильное питание',
+    type: 'content',
+    image: 'https://cdn.poehali.dev/projects/18fd8331-4361-489f-b325-f9ed107fdb3d/files/eb7755f5-f0a3-4270-8716-736774d6dd94.jpg',
+    points: [
+      { icon: 'Apple', text: 'Фрукты и овощи - основа рациона', color: 'text-red-500' },
+      { icon: 'Milk', text: 'Молочные продукты каждый день', color: 'text-blue-400' },
+      { icon: 'Droplets', text: 'Вода 1,5-2 литра в день', color: 'text-cyan-500' },
+      { icon: 'XCircle', text: 'Минимум сладкого и фастфуда', color: 'text-orange-500' },
     ],
   },
   {
     id: 3,
-    title: "Важность режима дня",
-    type: "info",
-    icon: "Heart",
-    color: "from-blue-500 to-cyan-500",
+    title: 'Физическая активность',
+    type: 'content',
+    image: 'https://cdn.poehali.dev/projects/18fd8331-4361-489f-b325-f9ed107fdb3d/files/74219dca-68db-4dee-a696-38dae5b502b7.jpg',
     points: [
-      {
-        icon: "Brain",
-        title: "Улучшение концентрации",
-        description: "Регулярный режим помогает мозгу лучше усваивать информацию",
-      },
-      {
-        icon: "Battery",
-        title: "Больше энергии",
-        description: "Правильное распределение нагрузки даёт силы на весь день",
-      },
-      {
-        icon: "Moon",
-        title: "Качественный сон",
-        description: "Постоянное время отхода ко сну улучшает восстановление",
-      },
+      { icon: 'Dumbbell', text: 'Утренняя зарядка 10-15 минут', color: 'text-purple-500' },
+      { icon: 'Activity', text: 'Спортивные секции 2-3 раза в неделю', color: 'text-pink-500' },
+      { icon: 'PersonStanding', text: 'Прогулки на свежем воздухе 1-2 часа', color: 'text-green-600' },
+      { icon: 'Bike', text: 'Активные игры и хобби', color: 'text-emerald-500' },
     ],
   },
   {
     id: 4,
-    title: "Правильное питание",
-    subtitle: "Сбалансированный рацион для здоровья",
-    type: "section",
-    icon: "Apple",
-    color: "from-orange-500 to-amber-500",
-    image: "https://cdn.poehali.dev/projects/18fd8331-4361-489f-b325-f9ed107fdb3d/files/4e1cef29-de8b-4dd5-a634-c47a27830cea.jpg",
-    content: [
-      { category: "Завтрак (25%)", items: "Каши, яйца, молочные продукты, фрукты" },
-      { category: "Обед (35%)", items: "Суп, мясо/рыба, гарнир, овощи, компот" },
-      { category: "Полдник (15%)", items: "Фрукты, йогурт, орехи" },
-      { category: "Ужин (25%)", items: "Лёгкие блюда: овощи, творог, рыба" },
+    title: 'Профилактика',
+    type: 'content',
+    image: null,
+    grid: [
+      { icon: 'Hand', title: 'Гигиена', desc: 'Мытье рук перед едой и после прогулки', color: 'bg-blue-50 text-blue-600' },
+      { icon: 'Eye', title: 'Зрение', desc: 'Перерывы при работе с экраном каждые 20 минут', color: 'bg-purple-50 text-purple-600' },
+      { icon: 'Smile', title: 'Осанка', desc: 'Правильная посадка за партой и столом', color: 'bg-green-50 text-green-600' },
+      { icon: 'Wind', title: 'Проветривание', desc: 'Свежий воздух в комнате 3-4 раза в день', color: 'bg-cyan-50 text-cyan-600' },
     ],
   },
   {
     id: 5,
-    title: "Принципы здорового питания",
-    type: "info",
-    icon: "Sparkles",
-    color: "from-orange-500 to-amber-500",
-    points: [
-      {
-        icon: "Droplets",
-        title: "Водный баланс",
-        description: "1.5-2 литра чистой воды в день",
-      },
-      {
-        icon: "Salad",
-        title: "Овощи и фрукты",
-        description: "Не менее 400 г в день разных цветов",
-      },
-      {
-        icon: "Ban",
-        title: "Ограничить сахар",
-        description: "Меньше газировки и сладостей",
-      },
-      {
-        icon: "Clock3",
-        title: "Регулярность",
-        description: "4-5 приёмов пищи в одно время",
-      },
-    ],
-  },
-  {
-    id: 6,
-    title: "Физическая активность",
-    subtitle: "Движение — это жизнь",
-    type: "section",
-    icon: "Dumbbell",
-    color: "from-purple-500 to-pink-500",
-    image: "https://cdn.poehali.dev/projects/18fd8331-4361-489f-b325-f9ed107fdb3d/files/eecac57f-c085-46a5-ac9d-b92bce1db005.jpg",
-    content: [
-      { activity: "Утренняя зарядка", duration: "10-15 минут", benefit: "Пробуждение организма" },
-      { activity: "Физкультура в школе", duration: "45 минут", benefit: "Общая физподготовка" },
-      { activity: "Прогулки на свежем воздухе", duration: "60 минут", benefit: "Насыщение кислородом" },
-      { activity: "Спортивные секции", duration: "2-3 раза в неделю", benefit: "Развитие навыков" },
-      { activity: "Активные игры", duration: "30-60 минут", benefit: "Координация, общение" },
-    ],
-  },
-  {
-    id: 7,
-    title: "Норма физической активности",
-    type: "stats",
-    icon: "Activity",
-    color: "from-purple-500 to-pink-500",
-    stats: [
-      { label: "Школьники 6-17 лет", value: "60 минут в день", description: "Умеренная и интенсивная активность" },
-      { label: "Силовые упражнения", value: "3 раза в неделю", description: "Укрепление мышц и костей" },
-      { label: "Экранное время", value: "Не более 2 часов", description: "Кроме учебных целей" },
-    ],
-  },
-  {
-    id: 8,
-    title: "Профилактика заболеваний",
-    subtitle: "Здоровые привычки каждый день",
-    type: "section",
-    icon: "ShieldPlus",
-    color: "from-green-500 to-emerald-500",
-    content: [
-      { habit: "Мытьё рук", frequency: "Перед едой, после улицы", importance: "⭐⭐⭐" },
-      { habit: "Чистка зубов", frequency: "2 раза в день", importance: "⭐⭐⭐" },
-      { habit: "Проветривание комнаты", frequency: "3-4 раза в день", importance: "⭐⭐⭐" },
-      { habit: "Влажная уборка", frequency: "2-3 раза в неделю", importance: "⭐⭐" },
-      { habit: "Осанка за столом", frequency: "Постоянно", importance: "⭐⭐⭐" },
-    ],
-  },
-  {
-    id: 9,
-    title: "Укрепление иммунитета",
-    type: "info",
-    icon: "Shield",
-    color: "from-green-500 to-emerald-500",
-    points: [
-      {
-        icon: "Sun",
-        title: "Закаливание",
-        description: "Контрастный душ, прогулки в любую погоду",
-      },
-      {
-        icon: "Pill",
-        title: "Витамины",
-        description: "Сезонные фрукты, овощи, при необходимости — комплексы",
-      },
-      {
-        icon: "Bed",
-        title: "Полноценный сон",
-        description: "8-10 часов для школьников",
-      },
-      {
-        icon: "Smile",
-        title: "Позитивный настрой",
-        description: "Меньше стресса, больше положительных эмоций",
-      },
-    ],
-  },
-  {
-    id: 10,
-    title: "Главные правила здоровья",
-    type: "summary",
-    icon: "CheckCircle2",
-    rules: [
-      "Соблюдай режим дня и спи 8-10 часов",
-      "Питайся разнообразно и регулярно",
-      "Двигайся не менее 60 минут в день",
-      "Соблюдай правила гигиены",
-      "Проводи время на свежем воздухе",
-      "Ограничь время у экранов",
-      "Пей достаточно воды",
-      "Береги свою осанку",
+    title: 'Помни!',
+    type: 'final',
+    quote: 'Здоровье - это самое ценное, что у нас есть. Береги его с детства!',
+    tips: [
+      'Соблюдай режим дня',
+      'Питайся правильно',
+      'Двигайся каждый день',
+      'Следи за гигиеной',
     ],
   },
 ];
 
-export default function Index() {
+const Index = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
@@ -204,179 +88,136 @@ export default function Index() {
     }
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
   const slide = slides[currentSlide];
-  const progress = ((currentSlide + 1) / slides.length) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-8">
-      <div className="max-w-5xl mx-auto">
-        <Progress value={progress} className="mb-6" />
-
-        <Card className="relative overflow-hidden shadow-2xl">
-          <div className="aspect-[16/9] p-8 md:p-12 flex flex-col justify-center">
-            {slide.type === "cover" && (
-              <div className="text-center space-y-6">
-                <div className="inline-block p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4">
-                  <Icon name="HeartPulse" size={64} className="text-white" />
-                </div>
-                <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  {slide.title}
-                </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground">{slide.subtitle}</p>
-              </div>
-            )}
-
-            {slide.type === "section" && (
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="space-y-6">
-                  <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r ${slide.color} text-white`}>
-                    <Icon name={slide.icon} size={24} />
-                    <span className="font-semibold">Раздел {Math.floor(slide.id / 3) + 1}</span>
-                  </div>
-                  <h2 className="text-3xl md:text-5xl font-bold text-foreground">{slide.title}</h2>
-                  <p className="text-lg text-muted-foreground">{slide.subtitle}</p>
-
-                  <div className="space-y-3 mt-6">
-                    {slide.content?.map((item, index) => (
-                      <div key={index} className="bg-white/50 backdrop-blur p-4 rounded-lg border border-slate-200">
-                        <div className="flex items-start gap-3">
-                          <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${slide.color} mt-2`}></div>
-                          <div className="flex-1">
-                            <p className="font-semibold text-foreground">
-                              {item.time || item.category || item.activity}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {item.activity || item.items || item.duration}
-                              {item.benefit && <span className="text-xs block mt-1">→ {item.benefit}</span>}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="hidden md:block">
-                  <img
-                    src={slide.image}
-                    alt={slide.title}
-                    className="w-full h-full object-cover rounded-2xl shadow-lg"
-                  />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex flex-col">
+      <div className="flex-1 flex items-center justify-center p-6">
+        <div className="w-full max-w-5xl">
+          {slide.type === 'title' && (
+            <div className="text-center space-y-8 animate-fade-in">
+              <div className="flex justify-center mb-8">
+                <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-full">
+                  <Icon name="Heart" size={64} className="text-white" />
                 </div>
               </div>
-            )}
-
-            {slide.type === "info" && (
-              <div className="space-y-8">
-                <div className="text-center space-y-3">
-                  <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r ${slide.color} text-white`}>
-                    <Icon name={slide.icon} size={24} />
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">{slide.title}</h2>
+              <h1 className="text-6xl font-bold text-foreground mb-4">{slide.title}</h1>
+              <p className="text-3xl text-muted-foreground font-semibold">{slide.subtitle}</p>
+              <div className="flex justify-center gap-4 mt-12">
+                <div className="flex items-center gap-2 text-primary">
+                  <Icon name="Home" size={32} />
+                  <span className="text-xl font-semibold">Дома</span>
                 </div>
+                <div className="flex items-center gap-2 text-secondary">
+                  <Icon name="School" size={32} />
+                  <span className="text-xl font-semibold">В школе</span>
+                </div>
+              </div>
+            </div>
+          )}
 
-                <div className="grid md:grid-cols-3 gap-6">
-                  {slide.points?.map((point, index) => (
-                    <Card key={index} className="p-6 hover:shadow-lg transition-shadow border-2">
-                      <div className={`w-12 h-12 rounded-full bg-gradient-to-r ${slide.color} flex items-center justify-center mb-4`}>
-                        <Icon name={point.icon} size={24} className="text-white" />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-2 text-foreground">{point.title}</h3>
-                      <p className="text-muted-foreground">{point.description}</p>
+          {slide.type === 'content' && slide.image && (
+            <div className="grid md:grid-cols-2 gap-8 animate-fade-in">
+              <div>
+                <h2 className="text-4xl font-bold text-foreground mb-6">{slide.title}</h2>
+                <div className="space-y-4">
+                  {slide.points?.map((point, idx) => (
+                    <Card key={idx} className="border-l-4 border-l-primary hover:shadow-lg transition-shadow">
+                      <CardContent className="p-4 flex items-start gap-3">
+                        <Icon name={point.icon} size={24} className={point.color} />
+                        <p className="text-lg">{point.text}</p>
+                      </CardContent>
                     </Card>
                   ))}
                 </div>
               </div>
-            )}
+              <div className="flex items-center">
+                <img 
+                  src={slide.image} 
+                  alt={slide.title}
+                  className="w-full h-auto rounded-2xl shadow-xl"
+                />
+              </div>
+            </div>
+          )}
 
-            {slide.type === "stats" && (
-              <div className="space-y-8">
-                <div className="text-center space-y-3">
-                  <div className={`inline-flex items-center gap-3 px-4 py-2 rounded-full bg-gradient-to-r ${slide.color} text-white`}>
-                    <Icon name={slide.icon} size={24} />
-                  </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">{slide.title}</h2>
-                </div>
-
-                <div className="space-y-6">
-                  {slide.stats?.map((stat, index) => (
-                    <Card key={index} className="p-8 border-l-4 border-l-purple-500">
-                      <div className="grid md:grid-cols-3 gap-4 items-center">
-                        <h3 className="text-lg font-semibold text-foreground">{stat.label}</h3>
-                        <div className={`text-3xl font-bold bg-gradient-to-r ${slide.color} bg-clip-text text-transparent text-center`}>
-                          {stat.value}
-                        </div>
-                        <p className="text-muted-foreground">{stat.description}</p>
+          {slide.type === 'content' && slide.grid && (
+            <div className="animate-fade-in">
+              <h2 className="text-4xl font-bold text-foreground mb-8 text-center">{slide.title}</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                {slide.grid.map((item, idx) => (
+                  <Card key={idx} className="hover:shadow-xl transition-shadow border-2">
+                    <CardContent className="p-6">
+                      <div className={`w-16 h-16 rounded-full ${item.color} flex items-center justify-center mb-4`}>
+                        <Icon name={item.icon} size={32} />
                       </div>
-                    </Card>
-                  ))}
+                      <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
+                      <p className="text-lg text-muted-foreground">{item.desc}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {slide.type === 'final' && (
+            <div className="text-center space-y-8 animate-fade-in">
+              <div className="flex justify-center mb-6">
+                <div className="bg-gradient-to-r from-green-400 to-blue-500 p-6 rounded-full">
+                  <Icon name="Star" size={64} className="text-white" />
                 </div>
               </div>
-            )}
-
-            {slide.type === "summary" && (
-              <div className="space-y-8">
-                <div className="text-center space-y-3">
-                  <div className="inline-block p-6 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full mb-4">
-                    <Icon name={slide.icon} size={48} className="text-white" />
+              <h2 className="text-5xl font-bold text-foreground mb-6">{slide.title}</h2>
+              <blockquote className="text-2xl italic text-muted-foreground max-w-3xl mx-auto border-l-4 border-primary pl-6 py-4">
+                {slide.quote}
+              </blockquote>
+              <div className="grid md:grid-cols-2 gap-4 max-w-2xl mx-auto mt-12">
+                {slide.tips?.map((tip, idx) => (
+                  <div key={idx} className="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 rounded-lg flex items-center gap-3">
+                    <Icon name="CheckCircle2" size={24} className="text-primary flex-shrink-0" />
+                    <span className="text-lg font-semibold">{tip}</span>
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground">{slide.title}</h2>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-4">
-                  {slide.rules?.map((rule, index) => (
-                    <div key={index} className="flex items-start gap-4 p-4 bg-white/70 backdrop-blur rounded-lg border border-green-200">
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold">
-                        {index + 1}
-                      </div>
-                      <p className="text-lg text-foreground pt-0.5">{rule}</p>
-                    </div>
-                  ))}
-                </div>
+                ))}
               </div>
-            )}
-          </div>
-        </Card>
+            </div>
+          )}
+        </div>
+      </div>
 
-        <div className="flex items-center justify-between mt-6 gap-4">
+      <div className="p-6 bg-white/50 backdrop-blur-sm border-t">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Button
-            variant="outline"
-            size="lg"
             onClick={prevSlide}
             disabled={currentSlide === 0}
+            variant="outline"
+            size="lg"
             className="gap-2"
           >
             <Icon name="ChevronLeft" size={20} />
-            <span className="hidden md:inline">Назад</span>
+            Назад
           </Button>
 
-          <div className="flex gap-2 overflow-x-auto max-w-md">
-            {slides.map((_, index) => (
+          <div className="flex items-center gap-2">
+            {slides.map((_, idx) => (
               <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  currentSlide === index
-                    ? "bg-primary w-8"
-                    : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                key={idx}
+                onClick={() => setCurrentSlide(idx)}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  idx === currentSlide
+                    ? 'bg-primary w-8'
+                    : 'bg-gray-300 hover:bg-gray-400'
                 }`}
-                aria-label={`Перейти к слайду ${index + 1}`}
               />
             ))}
           </div>
 
           <Button
-            variant="outline"
-            size="lg"
             onClick={nextSlide}
             disabled={currentSlide === slides.length - 1}
+            size="lg"
             className="gap-2"
           >
-            <span className="hidden md:inline">Вперёд</span>
+            Вперёд
             <Icon name="ChevronRight" size={20} />
           </Button>
         </div>
@@ -387,4 +228,6 @@ export default function Index() {
       </div>
     </div>
   );
-}
+};
+
+export default Index;
